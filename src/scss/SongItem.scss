@@ -1,0 +1,31 @@
+@import "variables";
+@import "App";
+
+.song__item{
+    width: 250px;
+    height: 350px;
+    padding: 1rem;
+    border: 1px solid $background-header-color-light;
+    border-radius: 8px;
+    background: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .song__button-like{
+        font-size: 1rem;
+        border: 1px solid red;
+        border-radius: 8px;
+        width: 15rem;
+        padding: 1rem;
+        transition: .3s;
+
+        &--active{
+            color: red;
+            background: #de94a4;
+
+        }
+    }
+}

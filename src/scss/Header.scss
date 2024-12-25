@@ -1,0 +1,32 @@
+@import "variables";
+@import "App.scss";
+
+a{
+  text-decoration: none;
+  color: $header-color-light;
+
+}
+
+.header{
+  background-color: $background-header-color-light;
+  color: $header-color-light;
+  font-size: 1.5rem;
+  @include flex-row;
+  padding-right: 30px;
+  padding-left: 30px;
+
+  .nav{
+    @include flex-row;
+
+    &__logo{
+      font-size: 40px;
+    }
+
+    &__list{
+      @include flex-row;
+      gap: 30px;
+      letter-spacing: 0.2em;
+      list-style: none;
+    }
+  }
+}
