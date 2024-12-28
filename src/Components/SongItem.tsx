@@ -1,31 +1,57 @@
 import React from 'react';
+import {useNavigate} from "react-router-dom";
 import useSongState from '../store/store';
 import {Song} from '../store/store';
 import "../scss/SongItem.scss"
 
 interface SongItemProps {
-    song: Song[];
+    song: Song;
 }
 
-const SongItem : React.FC<SongItemProps> = ({name, isFavorite}) => {
-    const {toggleLike} = useSongState();
+const SongItem: React.FC<SongItemProps> = ({song}) => {
+    const {toggleLike, deleteSong} = useSongState();
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/products/${song.id}`);
+    }
+
+    function formatTextForCard(input: string): string {
+        const trimmed = input.length > 33 ? input.slice(0, 30) : input;
+
+        const withSpace = trimmed.length > 16
+            ? trimmed.slice(0, 17) + " " + trimmed.slice(17)
+            : trimmed;
+
+        return input.length > 33 ? withSpace + "..." : withSpace;
+    }
+
 
     return (
-        <div className="song__item">
-            <div className="song__title-panel">
-                <h3 className="song__title">{name}</h3>
-                <button onClick={() => useSongState.dispatch({type: 'DELETE_SONG', payload: name})}>
-                    <i className="fa-solid fa-xmark"></i>
+        <div className="song__item" onClick={handleClick}>
+            <button className="song__button-delete"
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        deleteSong(song.id);
+                        }}>
+                <i className="fa-solid fa-xmark"></i>
+            </button>
+            <div className="song__content">
+                <img className="song__image" src={song.image}/>
+                <div className="song__text">
+                    <h3 className="song__text__title">{formatTextForCard(song.name)}</h3>
+                </div>
+                <div className="song__text">
+                    <h3 className="song__text__artists">{formatTextForCard(song.artists)}</h3>
+                </div>
+                <button className={`song__button-like ${song.isFavorite ? 'song__button-like--active' : ''}`}
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            toggleLike(song.name);
+                        }}>
+                    <i className="fa-solid fa-heart"></i>
                 </button>
             </div>
-            <p>ЗАГУГЛИТЬ ПРО HEIGHT 100%</p>
-            <p>Имя артиста</p>
-            <p>Альбом</p>
-            <p>Длительность</p>
-            <button className={`song__button-like ${isFavorite ? 'song__button-like--active' : ''}`}
-                    onClick={() => toggleLike(name)}>
-                <i className="fa-solid fa-heart"></i>
-            </button>
         </div>
     )
 }

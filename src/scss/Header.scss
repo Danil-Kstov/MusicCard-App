@@ -3,17 +3,19 @@
 
 a{
   text-decoration: none;
-  color: $header-color-light;
+  color: $color-primary;
 
 }
 
 .header{
-  background-color: $background-header-color-light;
-  color: $header-color-light;
+  background-color: $background-secondary;
+  font-family: Kanit, sans-serif;
+  color: $color-primary;
   font-size: 1.5rem;
   @include flex-row;
   padding-right: 30px;
   padding-left: 30px;
+  border-bottom: 1px solid $border-primary;
 
   .nav{
     @include flex-row;
@@ -27,6 +29,15 @@ a{
       gap: 30px;
       letter-spacing: 0.2em;
       list-style: none;
+
+      .nav__item--active{
+        cursor: not-allowed;
+        pointer-events: none;
+        text-shadow: .8px .8px 0 $color-primary,
+        -.8px .8px 0 $color-primary,
+        .8px -.8px 0 $color-primary,
+        -.8px -.8px 0 $color-primary;
+      }
     }
   }
 }

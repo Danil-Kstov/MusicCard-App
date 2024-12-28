@@ -10,8 +10,9 @@
   &__title {
     font-size: 1.75rem;
     font-weight: bold;
-    color: #f9f9f9;
+    color: $pages-title;
     letter-spacing: 0.3em;
+    font-family: Kanit, sans-serif;
     //Контур
     text-shadow: .8px .8px 0 #000,
     -.8px .8px 0 #000,
@@ -33,34 +34,65 @@
     border: none;
     cursor: pointer;
     font-size: 1.5rem;
-    color: $background-header-color-light;
+    color: $color-primary;
     text-shadow: .8px .8px 0 #000,
     -.8px .8px 0 #000,
     .8px -.8px 0 #000,
     -.8px -.8px 0 #000;
 
-    &:hover {
-      color: $header-color-light;
+    &--active{
+      color: $background-secondary;
     }
   }
 
   &__input {
     padding: 0.5rem;
     font-size: 1rem;
-    border: 1px solid $background-header-color-light;
+    border: 1px solid $background-secondary;
     border-radius: 4px;
 
     &:focus {
       outline: none;
-      border-color: #007bff;
+      border-color: $border-primary;
     }
   }
 }
 
 .music-list{
   display: grid;
+  font-family: Montserrat, sans-serif;
   grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
   padding: 1rem;
   border-radius: 8px;
+}
+
+.pagination{
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+
+  &__button, &__arrow{
+    font-size: 1rem;
+    background: none;
+    border: none;
+    color: $color-primary;
+    cursor: pointer;
+
+    &--active{
+      text-shadow: .8px .8px 0 $border-primary ,
+      -.8px .8px 0 $border-primary,
+      .8px -.8px 0 $border-primary,
+      -.8px -.8px 0 $border-primary;
+
+    }
+
+    &--disabled{
+      color: rgba(176, 176, 176, 0.25);
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
 }

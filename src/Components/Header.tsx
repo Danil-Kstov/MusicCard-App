@@ -1,24 +1,27 @@
 import React from 'react';
 import '../scss/Header.scss';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+    isAdd?: boolean
+}
+
+const Header: React.FC<HeaderProps> = ({isAdd=false}) => {
     return (
         <header className="header">
             <nav className="nav">
-                <a className="nav__logo" href="#">
+                <a className="nav__logo" href="/products">
                     <i className="fa-solid fa-wand-magic-sparkles"></i>
                     <i className="fa-solid fa-music"></i>
                 </a>
                 <ul className="nav__list">
-                <li className="nav__item nav__item--active">List</li>
-                    <li className="nav__item">Add</li>
+                    <li className={`nav__item ${isAdd ? "" : "nav__item--active"}`}>
+                        <a href="/products">List</a>
+                    </li>
+                    <li className={`nav__item ${isAdd ? "nav__item--active" : ""}`}>
+                        <a href="/create-product">Add</a>
+                    </li>
                 </ul>
             </nav>
-            <div className="switch-themes">
-                <button className="switch-themes__btn switch-themes__btn--light switch-themes__btn--active">Light</button>
-                <button className="switch-themes__btn switch-themes__btn--star">Star</button>
-                <button className="switch-themes__btn switch-themes__btn--dark">Dark</button>
-            </div>
         </header>
     )
 }

@@ -1,0 +1,11 @@
+@import "variables";
+
+.footer{
+  display: flex;
+  font-family: Kanit, sans-serif;
+  justify-content: center;
+
+  &__text{
+    color: $color-primary;
+  }
+}
