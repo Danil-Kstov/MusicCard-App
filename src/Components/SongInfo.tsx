@@ -1,5 +1,5 @@
 import { useParams} from "react-router-dom";
-import useSongStore from "../store/store.ts";
+import useSongStore, {Song} from "../store/store.ts";
 import { useState } from "react";
 import "../scss/SongInfo&Add.scss";
 
@@ -9,17 +9,36 @@ const SongInfo = () => {
     const updateSong = useSongStore((state) => state.updateSong);
 
     const [isEdit, setIsEdit] = useState(false);
-    const [editedSong, setEditedSong] = useState(null);
+    const [editedSong, setEditedSong] = useState<Song>({
+        id: '',
+        image: '',
+        name: '',
+        link: '',
+        album: '',
+        artists: '',
+        release_date: '',
+        isFavorite: false
+        }
+    );
 
     const song = songs.find((song) => song.id === id);
 
-    if (!song) {
+    if (!id || !song) {
         throw new Error("Song not found");
     }
 
     const handleEdit = () => {
         setIsEdit(true);
-        setEditedSong({ ...song });
+        setEditedSong({
+            id: song.id || '', // Указываем значение по умолчанию
+            image: song.image || '',
+            name: song.name || '',
+            link: song.link || '',
+            album: song.album || '',
+            artists: song.artists || '',
+            release_date: song.release_date || '',
+            isFavorite: song.isFavorite || false,
+        });;
     };
 
     const handleSave = () => {
@@ -29,12 +48,25 @@ const SongInfo = () => {
 
     const handleCancel = () => {
         setIsEdit(false);
-        setEditedSong(null);
+        setEditedSong({
+            id: '',
+            image: '',
+            name: '',
+            link: '',
+            album: '',
+            artists: '',
+            release_date: '',
+            isFavorite: false
+        });
     };
 
-    const handleChange = (field, value) => {
+    const handleChange = (field: string, value: string) => {
         setEditedSong((prev) => ({ ...prev, [field]: value }));
     };
+
+    if (!song) {
+        throw new Error("Song not found");
+    }
 
     return (
         <section className="song__info">

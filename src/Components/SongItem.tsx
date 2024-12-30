@@ -17,13 +17,14 @@ const SongItem: React.FC<SongItemProps> = ({song}) => {
     }
 
     function formatTextForCard(input: string): string {
-        const trimmed = input.length > 33 ? input.slice(0, 30) : input;
+        const trimmed = input.length > 36 ? input.slice(0, 33) : input;
 
-        const withSpace = trimmed.length > 16
-            ? trimmed.slice(0, 17) + " " + trimmed.slice(17)
+        const hasSpaceBefore20 = trimmed.slice(0, 20).includes(" ");
+        const withSpace = trimmed.length > 19 && !hasSpaceBefore20
+            ? trimmed.slice(0, 20) + " " + trimmed.slice(20)
             : trimmed;
 
-        return input.length > 33 ? withSpace + "..." : withSpace;
+        return input.length > 36 ? withSpace + "..." : withSpace;
     }
 
 

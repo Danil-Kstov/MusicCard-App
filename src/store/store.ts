@@ -55,74 +55,82 @@ const getSpotifyToken = async (): Promise<string | null> => {
 };
 
 
-const useSongStore = create<SongStore>(persist((set) => ({
-    songs: [],
-    isLoading: false,
-    fetchSongs: async () => {
-        set({ isLoading: true });
+const useSongStore = create<SongStore>()(
+    persist(
+        (set) => ({
+            songs: [],
+            isLoading: false,
+            fetchSongs: async () => {
+                set({ isLoading: true });
 
-        const token = await getSpotifyToken();
-        if (!token) {
-            console.error('No token available');
-            set({ isLoading: false });
-            return;
-        }
+                const token = await getSpotifyToken();
+                if (!token) {
+                    console.error('No token available');
+                    set({ isLoading: false });
+                    return;
+                }
 
-        const playlistId = '6qv7CRaZr9nJaamM8Xtrv6';
-        const url = `https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=50`;
+                const playlistId = '6qv7CRaZr9nJaamM8Xtrv6';
+                const url = `https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=50`;
 
-        try {
-            const response = await fetch(url, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+                try {
+                    const response = await fetch(url, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
 
-            const data = await response.json();
-            console.log(data);
-            set({
-                songs: data.items.map((song: any) => ({
-                    id: song.track.id,
-                    image: song.track.album.images[1].url,
-                    name: song.track.name,
-                    link: song.track.external_urls.spotify,
-                    artists: song.track.artists.map((artist: string) => artist.name).join(', '),
-                    album: song.track.album.name,
-                    release_date: formatDateToEuropean(song.track.album.release_date),
-                    isFavorite: false,
-                })),
-                isLoading: false,
-            });
-        } catch (error) {
-            console.error('Error fetching songs:', error);
-            set({ isLoading: false });
-        }
-    },
-    toggleLike: (name: string) => {
-        set((state) => ({
-            songs: state.songs.map((s) =>
-                s.name === name ? { ...s, isFavorite: !s.isFavorite } : s
-            ),
-        }));
-    },
-    updateSong: (id: string, updatedSong: Song) => {
-        set((state) => ({
-            songs: state.songs.map((song) =>
-                song.id === id ? { ...song, ...updatedSong } : song
-            ),
-        }));
-    },
-    addSong: (song: Song, id: string) => {
-        set((state) => ({
-            songs: [song, ...state.songs],
-        }));
-    },
-    deleteSong: (id: string) => {
-        set((state) => ({
-            songs: state.songs.filter((song) => song.id !== id),
-        }));
-    }
-})));
+                    const data = await response.json();
+                    console.log(data);
+                    set({
+                        songs: data.items.map((song: any) => ({
+                            id: song.track.id,
+                            image: song.track.album.images[1].url,
+                            name: song.track.name,
+                            link: song.track.external_urls.spotify,
+                            artists: song.track.artists
+                                .map((artist: { name: string }) => artist.name)
+                                .join(', '),
+                            album: song.track.album.name,
+                            release_date: formatDateToEuropean(song.track.album.release_date),
+                            isFavorite: false,
+                        })),
+                        isLoading: false,
+                    });
+                } catch (error) {
+                    console.error('Error fetching songs:', error);
+                    set({ isLoading: false });
+                }
+            },
+            toggleLike: (name: string) => {
+                set((state) => ({
+                    songs: state.songs.map((s) =>
+                        s.name === name ? { ...s, isFavorite: !s.isFavorite } : s
+                    ),
+                }));
+            },
+            updateSong: (id: string, updatedSong: Song) => {
+                set((state) => ({
+                    songs: state.songs.map((song) =>
+                        song.id === id ? { ...song, ...updatedSong } : song
+                    ),
+                }));
+            },
+            addSong: (song: Song, id: string) => {
+                song.id = id;
+                set((state) => ({
+                    songs: [song, ...state.songs],
+                }));
+            },
+            deleteSong: (id: string) => {
+                set((state) => ({
+                    songs: state.songs.filter((song) => song.id !== id),
+                }));
+            },
+        }),
+        { name: 'song-store' } // Опции persist
+    )
+);
 
 const formatDateToEuropean = (dateString: string): string => {
     const [year, month, day] = dateString.split('-');

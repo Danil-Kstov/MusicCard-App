@@ -58,13 +58,27 @@
   }
 }
 
-.music-list{
+.music-list {
   display: grid;
   font-family: Montserrat, sans-serif;
   grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
   padding: 1rem;
   border-radius: 8px;
+  min-height: 410px;
+
+  .no-data {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    &__text {
+      color: $color-primary;
+      font-weight: 800;
+    }
+  }
 }
 
 .pagination{

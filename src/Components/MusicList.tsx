@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import useSongStore from "../store/store.ts";
 import SongItem from "../Components/SongItem";
 import {Song} from "../store/store.ts";
@@ -35,6 +35,13 @@ const MusicList = () => {
         setCurrentPage(page);
     };
 
+    const renderCount = useRef(0);
+
+    const incrementRenderCount = () => {
+        renderCount.current += 1;
+    };
+
+    renderCount.current = 0;
     return (
         <section>
             <div className="main__header">
@@ -53,12 +60,22 @@ const MusicList = () => {
                 </div>
             </div>
             <div className="music-list">{
-                filter ? (querySongs.filter(song => song.isFavorite === true)
-                        .map(song => <SongItem song={song}/>)
-                ) : (paginatedSongs.map(song =>
-                    <SongItem song={song}/>
-                ))}</div>
-            {totalPages > 1 && <div className="pagination">
+                filter
+                    ? querySongs
+                        .filter((song) => song.isFavorite)
+                        .map((song) => {
+                            incrementRenderCount();
+                            return <SongItem key={song.id} song={song} />;
+                        })
+                    : paginatedSongs.map((song) => {
+                        incrementRenderCount();
+                        return <SongItem key={song.id} song={song} />;
+                    })}
+                    {renderCount.current === 0 && <div className="no-data"><
+                        h3 className="no-data__text">No data</h3>
+                    </div>}
+            </div>
+            {renderCount.current >= 10 && <div className="pagination">
                 <button className={`pagination__arrow ${currentPage === 1 && 'pagination__arrow--disabled'}`}
                         onClick={() => handlePageChange(currentPage - 1)}>
                     &lt;
