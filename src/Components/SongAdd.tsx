@@ -83,7 +83,7 @@ const SongAdd = () => {
                             value={newSong.name}
                             onChange={(e) => handleChange("name", e.target.value)}
                         />
-                        {errors.name && <span className="error">{errors.name}</span>}
+                        {errors.name && <span className="error"><br/>{errors.name}</span>}
                     </label>
                     <label>
                         Link:
@@ -92,7 +92,7 @@ const SongAdd = () => {
                             value={newSong.link}
                             onChange={(e) => handleChange("link", e.target.value)}
                         />
-                        {errors.link && <span className="error">{errors.link}</span>}
+                        {errors.link && <span className="error"><br/>{errors.link}</span>}
                     </label>
                     <label>
                         Album:
@@ -101,7 +101,7 @@ const SongAdd = () => {
                             value={newSong.album}
                             onChange={(e) => handleChange("album", e.target.value)}
                         />
-                        {errors.album && <span className="error">{errors.album}</span>}
+                        {errors.album && <span className="error"><br/>{errors.album}</span>}
                     </label>
                 </div>
                 <div className="columns">
@@ -112,7 +112,7 @@ const SongAdd = () => {
                             value={newSong.artists}
                             onChange={(e) => handleChange("artists", e.target.value)}
                         />
-                        {errors.artists && <span className="error">{errors.artists}</span>}
+                        {errors.artists && <span className="error"><br/>{errors.artists}</span>}
                     </label>
                     <label>
                         Release Date:
@@ -123,7 +123,7 @@ const SongAdd = () => {
                             onChange={(e) => handleChange("release_date", e.target.value)}
                         />
                         {errors.release_date && (
-                            <span className="error">{errors.release_date}</span>
+                            <span className="error"><br/>{errors.release_date}</span>
                         )}
                     </label>
                 </div>
